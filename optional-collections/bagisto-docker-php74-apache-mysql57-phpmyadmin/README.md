@@ -1,6 +1,22 @@
-# Optional Collections
+# Bagisto Docker - PHP 7.4, Apache, MySQL 5.7 & PHPMyAdmin
 
-Just provided optional docker support files for the smooth flow of installation via. docker.
+Set of all development-related tools needed for Bagisto.
+
+## Information
+
+After installation below are the ports for the usage of the container,
+
+### Apache
+
+We have bound all default ports for ease. Please take a note if apache is running on the host machine then either you should stop apache in the host machine or change the port in `docker-compose. yml`file.
+
+### MySQL
+
+MySql is also bound on the same port. Please take a note if MySQL is running on the host machine then either you should stop MySQL in the host machine or change the port in the `docker-compose.yml` file.
+
+### PHPMyAdmin
+
+It is bounded on port number 3333. For accessing PHPMyAdmin in the browser, you need to hit the `localhost:3333`.
 
 ## Installation
 
@@ -44,7 +60,7 @@ This command will build all your containers and run all your containers in detac
 - Step 3: Now, your container is running. You need the container id to enters inside the container to execute the further steps. We are doing it from the outside, if you need to go inside the container then use the `-it` command. For e.g. `docker exec -it <container-id> bash`. Now, run the below command to get the container id,
 
   ~~~sh
-  docker ps -aqf "name=container-name"
+  docker ps -aqf "name=bagisto-php-apache"
   ~~~
 
 This command will give some random string which you needed for executing the command inside the container. For e,g, you get some string like `some-random-string-123`.
