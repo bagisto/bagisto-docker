@@ -10,7 +10,7 @@ services:
       - ./app:/var/www/html
     working_dir: /var/www/html/
     environment:
-      USER_UID: 'mention your system user ID here. ex: 1001, 1000, 33, etc'
+      USER_UID: '1000'
     networks:
       - bagisto-network
     ports:
@@ -28,10 +28,10 @@ services:
     container_name: mysql
     restart: always
     environment:
-      MYSQL_DATABASE: 'mention the name of the database to be created here. eg: mydatabase'
-      MYSQL_USER: 'mention database user here. eg: mydatabase_user'
-      MYSQL_PASSWORD: 'mention database user password here. ex: mystrongPassword'
-      MYSQL_ROOT_PASSWORD: 'mention mysql root password here. ex: mysqlstrongpass'
+      MYSQL_DATABASE: 'bagisto'
+      MYSQL_USER: 'tei952'
+      MYSQL_PASSWORD: 'Zjhuen1915'
+      MYSQL_ROOT_PASSWORD: 'Zjhuen1915'
       MYSQL_ROOT_HOST: '%'
     networks:
       - bagisto-network
