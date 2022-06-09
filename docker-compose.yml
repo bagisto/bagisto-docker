@@ -1,50 +1,41 @@
-version: '3'
+version: '3.1'
 
 services:
+    bagisto-php-apache:
+        build:
+            args:
+                container_project_path: /var/www/html/
+                uid: 1406
+                user: $USER
+            context: .
+            dockerfile: ./Dockerfile
+        image: bagisto-php-apache
+        ports:
+            - 80:80
+        volumes:
+            - ./workspace/:/var/www/html/
 
-  web_server:
-    image: webkul/apache-php:latest
-    container_name: apache2
-    restart: always
-    volumes:
-      - ./app:/var/www/html
-    working_dir: /var/www/html/
-    environment:
-      USER_UID: 'mention your system user ID here. ex: 1001, 1000, 33, etc'
-    networks:
-      - bagisto-network
-    ports:
-      - '80:80'
-    expose:
-      - '80'
-    depends_on:
-      - database_server
-    links:
-      - database_server
+    bagisto-mysql:
+        image: mysql:8.0
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        environment:
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_ROOT_PASSWORD: root
+        ports:
+            - 9999:3306
+        volumes:
+            - mysql-data:/var/lib/mysql/
 
-
-  database_server:
-    image: mysql:5.7
-    container_name: mysql
-    restart: always
-    environment:
-      MYSQL_DATABASE: 'mention the name of the database to be created here. eg: mydatabase'
-      MYSQL_USER: 'mention database user here. eg: mydatabase_user'
-      MYSQL_PASSWORD: 'mention database user password here. ex: mystrongPassword'
-      MYSQL_ROOT_PASSWORD: 'mention mysql root password here. ex: mysqlstrongpass'
-      MYSQL_ROOT_HOST: '%'
-    networks:
-      - bagisto-network
-    ports:
-      - '3306:3306'
-    expose:
-      - '3306'
-    volumes:
-      - ./dbvolume:/var/lib/mysql
+    bagisto-phpmyadmin:
+        image: phpmyadmin:latest
+        restart: always
+        environment:
+            PMA_HOST: bagisto-mysql
+            PMA_USER: root
+            PMA_PASSWORD: root
+        ports:
+            - 3333:80
 
 volumes:
-  dbvolume:
-  app:
-
-networks:
-  bagisto-network:
+    mysql-data:
