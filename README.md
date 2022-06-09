@@ -16,11 +16,9 @@ With the help of docker-compose, one can define containers to be built, their co
 
 ## System Requirements
 
-System/Server requirements of Bagisto are mentioned [here](https://github.com/bagisto/bagisto#2-requirements-). Using Docker, these requirements will be fulfilled by docker images of apache & mysql, and our application will run in a multi-tier architecture.
+- System/Server requirements of Bagisto are mentioned [here](https://github.com/bagisto/bagisto#2-requirements-). Using Docker, these requirements will be fulfilled by docker images of apache & mysql, and our application will run in a multi-tier architecture.
 
-- Docker and Docker Compose
-
-Install latest version of Docker and Docker Compose if it is not already installed. Docker supports Linux, MacOS and Windows Operating System. Click [Docker](https://docs.docker.com/install/) and [Docker Compose] (https://docs.docker.com/compose/install/) to find their installation guide.
+- Install latest version of Docker and Docker Compose if it is not already installed. Docker supports Linux, MacOS and Windows Operating System. Click [Docker](https://docs.docker.com/install/) and [Docker Compose] (https://docs.docker.com/compose/install/) to find their installation guide.
 
 ## Installation
 
@@ -32,13 +30,13 @@ sh init.sh
 
 ## After installation
 
-- To log in as admin
+- To log in as admin.
 
   ~~~text
   http(s)://your_server_endpoint/admin/login
 
-  email: admin@example.com
-  password: admin123
+  Email: admin@example.com
+  Password: admin123
   ~~~
 
 - To log in as customer. You can directly register as customer and then login.
