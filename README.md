@@ -18,7 +18,7 @@ With the help of docker-compose, one can define containers to be built, their co
 
 - System/Server requirements of Bagisto are mentioned [here](https://github.com/bagisto/bagisto#2-requirements-). Using Docker, these requirements will be fulfilled by docker images of apache & mysql, and our application will run in a multi-tier architecture.
 
-- Install latest version of Docker and Docker Compose if it is not already installed. Docker supports Linux, MacOS and Windows Operating System. Click [Docker](https://docs.docker.com/install/) and [Docker Compose] (https://docs.docker.com/compose/install/) to find their installation guide.
+- Install latest version of Docker and Docker Compose if it is not already installed. Docker supports Linux, MacOS and Windows Operating System. Click [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/) to find their installation guide.
 
 ## Installation
 
