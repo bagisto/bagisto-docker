@@ -23,7 +23,7 @@ services:
             MYSQL_ROOT_HOST: '%'
             MYSQL_ROOT_PASSWORD: root
         ports:
-            - 9999:3306
+            - 3306:3306
         volumes:
             - mysql-data:/var/lib/mysql/
 
@@ -35,7 +35,7 @@ services:
             PMA_USER: root
             PMA_PASSWORD: root
         ports:
-            - 3333:80
+            - 8080:80
 
 volumes:
     mysql-data:
