@@ -5,7 +5,7 @@ services:
         build:
             args:
                 container_project_path: /var/www/html/
-                uid: 1406
+                uid: 1000
                 user: $USER
             context: .
             dockerfile: ./Dockerfile

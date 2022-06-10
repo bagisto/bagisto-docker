@@ -24,6 +24,10 @@ done
 echo "Now, setting up Bagisto..."
 docker exec ${apache_container_id} git clone https://github.com/bagisto/bagisto
 
+# setting bagisto stable version
+echo "Now, setting up Bagisto stable version..."
+docker exec -i ${apache_container_id} bash -c "cd bagisto && git reset --hard $(git describe --tags $(git rev-list --tags --max-count=1))"
+
 # installing composer dependencies inside container
 docker exec -i ${apache_container_id} bash -c "cd bagisto && composer install"
 
