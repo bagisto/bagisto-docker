@@ -71,7 +71,7 @@ With the help of docker-compose, one can define containers to be built, their co
 - Run the below command and everything setup for you,
 
   ~~~sh
-  sh init.sh
+  sh setup.sh
   ~~~
 
 ## After installation
