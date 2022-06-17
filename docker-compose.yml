@@ -5,7 +5,7 @@ services:
         build:
             args:
                 container_project_path: /var/www/html/
-                uid: 1000
+                uid: 1406
                 user: $USER
             context: .
             dockerfile: ./Dockerfile
@@ -25,7 +25,7 @@ services:
         ports:
             - 3306:3306
         volumes:
-            - mysql-data:/var/lib/mysql/
+            - ./.configs/mysql-data:/var/lib/mysql/
 
     bagisto-phpmyadmin:
         image: phpmyadmin:latest
@@ -36,6 +36,3 @@ services:
             PMA_PASSWORD: root
         ports:
             - 8080:80
-
-volumes:
-    mysql-data:
