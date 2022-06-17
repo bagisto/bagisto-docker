@@ -52,7 +52,7 @@ With the help of docker-compose, one can define containers to be built, their co
           ports:
               - 3306:3306 # adjust your port here, if you want to change
           volumes:
-              - mysql-data:/var/lib/mysql/
+              - ./.configs/mysql-data:/var/lib/mysql/
 
       bagisto-phpmyadmin:
           image: phpmyadmin:latest
