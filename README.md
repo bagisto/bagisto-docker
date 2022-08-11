@@ -33,7 +33,7 @@ With the help of docker-compose, one can define containers to be built, their co
               args:
                   container_project_path: /var/www/html/
                   uid: 1000 # add your uid here
-                  user: $USER
+                  user: $USER # on Windows set your user here
               context: .
               dockerfile: ./Dockerfile
           image: bagisto-php-apache
@@ -68,10 +68,16 @@ With the help of docker-compose, one can define containers to be built, their co
       mysql-data:
   ~~~
 
-- Run the below command and everything setup for you,
+- Run the below command and everything is setup for you.
 
   ~~~sh
   sh setup.sh
+  ~~~
+
+- On Windows run the below command and everything is setup for you.
+
+  ~~~bat
+  setup.cmd
   ~~~
 
 ## After installation
