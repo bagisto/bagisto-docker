@@ -23,7 +23,7 @@ RUN docker-php-ext-configure intl
 
 RUN docker-php-ext-install bcmath exif gd intl mysqli pdo pdo_mysql zip
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # setting node js
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
