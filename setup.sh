@@ -16,7 +16,7 @@ done
 
 # creating empty database
 echo "Creating empty database..."
-while ! docker exec ${db_container_id} mysql --user=root --password=root -e "CREATE DATABASE bagisto CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci;" >/dev/null 2>&1; do
+while ! docker exec ${db_container_id} mysql --user=root --password=root -e "CREATE DATABASE IF NOT EXISTS bagisto CHARACTER SET utf8mb3 COLLATE utf8_unicode_ci;" >/dev/null 2>&1; do
     sleep 1
 done
 
