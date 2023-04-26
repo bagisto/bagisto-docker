@@ -59,7 +59,7 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - ./.configs/elasticsearch-data:/usr/share/elasticsearch/data
+      - ./.configs/elasticsearch-data:/var/lib/elasticsearch/data
     ports:
       - 9200:9200
       - 9300:9300
