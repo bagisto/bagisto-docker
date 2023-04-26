@@ -3,7 +3,7 @@ FROM node:latest AS node
 FROM php:8.1-apache
 
 # installing php necessary dependencies
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y git ffmpeg
 
 RUN apt-get install -y libzip-dev unzip
 
@@ -21,7 +21,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp
 
 RUN docker-php-ext-configure intl
 
-RUN docker-php-ext-install bcmath exif gd intl mysqli pdo pdo_mysql zip
+RUN docker-php-ext-install bcmath calendar exif gd intl mysqli pdo pdo_mysql zip
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -29,6 +29,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node /usr/local/bin/node /usr/local/bin/node
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
+RUN npm install -g laravel-echo-server
 
 # arguments
 ARG container_project_path

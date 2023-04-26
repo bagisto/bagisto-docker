@@ -1,3 +1,4 @@
-container_id=$(docker ps -aqf "name=bagisto-mysql")
+# container id
+CONTAINER_ID=$(docker ps -aqf "name=bagisto-mysql")
 
-docker exec -it ${container_id} bash
+docker exec -it ${CONTAINER_ID} bash
