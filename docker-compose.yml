@@ -45,7 +45,7 @@ services:
       - 8080:80
 
   bagisto-elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
@@ -65,7 +65,7 @@ services:
       - 9300:9300
 
   bagisto-kibana:
-    image: docker.elastic.co/kibana/kibana:7.14.0
+    image: docker.elastic.co/kibana/kibana:7.17.0
     environment:
       - ELASTICSEARCH_HOSTS=http://bagisto-elasticsearch:9200
     ports:
