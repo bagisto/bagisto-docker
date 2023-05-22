@@ -1,5 +1,4 @@
 # main image
-FROM node:latest AS node
 FROM php:8.1-apache
 
 # installing dependencies
@@ -8,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     libfreetype6-dev \
     libicu-dev \
+    libgmp-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
     libwebp-dev \
@@ -21,14 +21,14 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp
 RUN docker-php-ext-configure intl
 
 # installing php extension
-RUN docker-php-ext-install bcmath calendar exif gd intl mysqli pdo pdo_mysql zip
+RUN docker-php-ext-install bcmath calendar exif gd gmp intl mysqli pdo pdo_mysql zip
 
 # installing composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # installing node js
-COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
-COPY --from=node /usr/local/bin/node /usr/local/bin/node
+COPY --from=node:latest /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=node:latest /usr/local/bin/node /usr/local/bin/node
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 # installing global node dependencies
