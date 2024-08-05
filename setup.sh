@@ -16,13 +16,13 @@ done
 
 # creating empty database for bagisto
 echo "Creating empty database for bagisto..."
-while ! docker exec ${db_container_id} mysql --user=root --password=root -e "CREATE DATABASE bagisto CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" >/dev/null 2>&1; do
+while ! docker exec ${db_container_id} mysql --user=root --password=root -e "CREATE DATABASE IF NOT EXISTS bagisto CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" >/dev/null 2>&1; do
     sleep 1
 done
 
 # creating empty database for bagisto testing
 echo "Creating empty database for bagisto testing..."
-while ! docker exec ${db_container_id} mysql --user=root --password=root -e "CREATE DATABASE bagisto_testing CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" >/dev/null 2>&1; do
+while ! docker exec ${db_container_id} mysql --user=root --password=root -e "CREATE DATABASE IF NOT EXISTS bagisto_testing CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" >/dev/null 2>&1; do
     sleep 1
 done
 
