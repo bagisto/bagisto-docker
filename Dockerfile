@@ -1,5 +1,5 @@
 # main image
-FROM php:8.3-apache
+FROM php:8.1-apache
 
 # arguments
 ARG uid
