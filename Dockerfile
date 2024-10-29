@@ -1,5 +1,10 @@
 # main image
-FROM php:8.1-apache
+FROM php:8.3-apache
+
+# arguments
+ARG uid
+ARG user
+ARG container_project_path
 
 # installing dependencies
 RUN apt-get update && apt-get install -y \
@@ -24,21 +29,12 @@ RUN docker-php-ext-configure intl
 RUN docker-php-ext-install bcmath calendar exif gd gmp intl mysqli pdo pdo_mysql zip
 
 # installing composer
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:2.7 /usr/bin/composer /usr/local/bin/composer
 
 # installing node js
-COPY --from=node:latest /usr/local/lib/node_modules /usr/local/lib/node_modules
-COPY --from=node:latest /usr/local/bin/node /usr/local/bin/node
+COPY --from=node:22 /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=node:22 /usr/local/bin/node /usr/local/bin/node
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
-
-# installing global node dependencies
-RUN npm install -g npx
-RUN npm install -g laravel-echo-server
-
-# arguments
-ARG container_project_path
-ARG uid
-ARG user
 
 # setting work directory
 WORKDIR $container_project_path

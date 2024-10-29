@@ -4,9 +4,9 @@ services:
   bagisto-php-apache:
     build:
       args:
-        container_project_path: /var/www/html/
         uid: 1000
         user: $USER
+        container_project_path: /var/www/html/
       context: .
       dockerfile: ./Dockerfile
     image: bagisto-php-apache
@@ -73,12 +73,12 @@ services:
     depends_on:
       - bagisto-elasticsearch
 
-  bagisto-mailhog:
-      image: mailhog/mailhog
-      logging:
-          # Disable saving logs.
-          driver: 'none'
-      ports:
-          # SMTP server.
-          - 1025:1025
-          - 8025:8025
+  bagisto-mailpit:
+    image: axllent/mailpit:latest
+    logging:
+        # Disable saving logs.
+        driver: 'none'
+    ports:
+        # SMTP server.
+        - 1025:1025
+        - 8025:8025
