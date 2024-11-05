@@ -16,12 +16,12 @@ The primary purpose of this repository is to provide a workspace along with all 
 
 Currently, all these services are included to fulfill the dependencies for the following Bagisto version:
 
-**Bagisto Version:** v1.4.0 to v2.2.3
+**Bagisto Version:** dev-master
 
 However, there may be some specific cases where adjustments are necessary. We recommend reviewing the `Dockerfile` or the `docker-compose.yml` file for any required modifications.
 
-> [!IMPORTANT]  
-> The setup script in this repository is configured for **Bagisto v2.2.3**. The `.env` files located in the `.configs` folder are aligned with this version. If you plan to modify the script or change the Bagisto version, ensure that your adjustments maintain compatibility with the updated version.
+> [!IMPORTANT]
+> The setup script in this repository is configured for **Bagisto dev-master**. The `.env` files located in the `.configs` folder are aligned with this version. If you plan to modify the script or change the Bagisto version, ensure that your adjustments maintain compatibility with the updated version.
 
 ## System Requirements
 
