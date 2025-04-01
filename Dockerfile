@@ -1,32 +1,38 @@
 # main image
 FROM php:8.3-apache
 
-# arguments
-ARG uid
-ARG user
-ARG container_project_path
-
-# installing dependencies
+# installing main dependencies
 RUN apt-get update && apt-get install -y \
     git \
-    ffmpeg \
+    ffmpeg 
+
+# installing unzip dependencies
+RUN apt-get install -y \
+    libzip-dev \
+    zlib1g-dev \
+    unzip
+
+# gd extension configure and install
+RUN apt-get install -y \
     libfreetype6-dev \
     libicu-dev \
     libgmp-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
     libwebp-dev \
-    libxpm-dev \
-    libzip-dev \
-    unzip \
-    zlib1g-dev
+    libxpm-dev
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp && docker-php-ext-install gd
 
-# configuring php extension
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp
-RUN docker-php-ext-configure intl
+# imagick extension configure and install
+RUN apt-get install -y libmagickwand-dev \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick
 
-# installing php extension
-RUN docker-php-ext-install bcmath calendar exif gd gmp intl mysqli pdo pdo_mysql zip
+# intl extension configure and install
+RUN docker-php-ext-configure intl && docker-php-ext-install intl
+
+# other extensions install
+RUN docker-php-ext-install bcmath calendar exif gmp mysqli pdo pdo_mysql zip
 
 # installing composer
 COPY --from=composer:2.7 /usr/bin/composer /usr/local/bin/composer
@@ -36,8 +42,13 @@ COPY --from=node:23 /usr/local/lib/node_modules /usr/local/lib/node_modules
 COPY --from=node:23 /usr/local/bin/node /usr/local/bin/node
 RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
-# setting work directory
-WORKDIR $container_project_path
+# installing global node dependencies
+RUN npm install -g npx
+
+# arguments
+ARG container_project_path
+ARG uid
+ARG user
 
 # adding user
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
@@ -54,3 +65,6 @@ RUN chown -R $user:www-data $container_project_path
 
 # changing user
 USER $user
+
+# setting work directory
+WORKDIR $container_project_path
