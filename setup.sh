@@ -61,3 +61,4 @@ docker cp .configs/.env.testing ${php_container_id}:/var/www/html/bagisto/.env.t
 
 # executing final commands
 docker exec -i ${php_container_id} bash -c "cd bagisto && php artisan bagisto:install --skip-env-check --skip-admin-creation"
+docker exec -i ${php_container_id} bash -c 'cd bagisto && php artisan db:seed --class=Webkul\\Installer\\Database\\Seeders\\ProductTableSeeder'
