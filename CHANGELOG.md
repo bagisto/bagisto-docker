@@ -1,3 +1,9 @@
+## Unreleased
+
+- Replaced Apache services with Nginx.
+
+- Added support for [Bagisto](https://github.com/bagisto/bagisto) v2.3.6 and up.
+
 ## **v1.1.1 (15th of September 2025)** - *Release*
 
 - Added support for [Bagisto](https://github.com/bagisto/bagisto) v2.2.4 to v2.3.6.
