@@ -1,51 +1,65 @@
-version: "3.1"
-
 services:
-  bagisto-php-apache:
+  php-fpm:
     build:
       args:
-        uid: 1000
+        uid: 1406
         user: $USER
         container_project_path: /var/www/html/
       context: .
       dockerfile: ./Dockerfile
-    image: bagisto-php-apache
+    image: php-fpm
     ports:
-      - 80:80
+      - "5173:5173"
     volumes:
       - ./workspace/:/var/www/html/
 
-  bagisto-mysql:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./workspace/:/var/www/html/
+      - ./.configs/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php-fpm
+
+  mysql:
     image: mysql:8.0
+    ports:
+      - "3306:3306"
     command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: root
-    ports:
-      - 3306:3306
     volumes:
-      - ./.configs/mysql-data:/var/lib/mysql/
+      - ./.configs/data/mysql-data:/var/lib/mysql/
+      - ./workspace/:/var/www/html/
 
-  bagisto-redis:
-    image: redis:6.2-alpine
-    ports:
-      - 6379:6379
-    command: redis-server --save 20 1 --loglevel warning
-    volumes:
-      - ./.configs/redis-data:/data
-
-  bagisto-phpmyadmin:
+  phpmyadmin:
     image: phpmyadmin:latest
+    ports:
+      - "8080:80"
     environment:
-      PMA_HOST: bagisto-mysql
+      PMA_HOST: mysql
       PMA_USER: root
       PMA_PASSWORD: root
-      UPLOAD_LIMIT: 512M
-    ports:
-      - 8080:80
+      UPLOAD_LIMIT: 2G
+      MEMORY_LIMIT: 2G
+      MAX_EXECUTION_TIME: 600
 
-  bagisto-elasticsearch:
+  redis:
+    image: redis:6.2-alpine
+    ports:
+      - "6379:6379"
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - ./.configs/data/redis-data:/data
+
+  elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    ports:
+      - "9200:9200"
+      - "9300:9300"
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
@@ -59,26 +73,19 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - ./.configs/elasticsearch-data:/var/lib/elasticsearch/data
-    ports:
-      - 9200:9200
-      - 9300:9300
+      - ./.configs/data/elasticsearch-data:/var/lib/elasticsearch/data
 
-  bagisto-kibana:
+  kibana:
     image: docker.elastic.co/kibana/kibana:7.17.0
+    ports:
+      - "5601:5601"
     environment:
-      - ELASTICSEARCH_HOSTS=http://bagisto-elasticsearch:9200
-    ports:
-      - 5601:5601
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     depends_on:
-      - bagisto-elasticsearch
+      - elasticsearch
 
-  bagisto-mailpit:
-    image: axllent/mailpit:latest
-    logging:
-        # Disable saving logs.
-        driver: 'none'
+  mailpit:
+    image: "axllent/mailpit:latest"
     ports:
-        # SMTP server.
-        - 1025:1025
-        - 8025:8025
+      - "8025:8025"
+      - "1025:1025"

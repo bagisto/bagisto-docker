@@ -1,10 +1,11 @@
 # main image
-FROM php:8.3-apache
+FROM php:8.3-fpm
 
 # installing main dependencies
 RUN apt-get update && apt-get install -y \
     git \
-    ffmpeg 
+    ffmpeg \
+    procps
 
 # installing unzip dependencies
 RUN apt-get install -y \
@@ -44,20 +45,20 @@ RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 # installing global node dependencies
 RUN npm install -g npx
+RUN npm install -g laravel-echo-server
 
 # arguments
 ARG container_project_path
 ARG uid
 ARG user
 
+# copy php-fpm pool configuration
+COPY ./.configs/nginx/pools/www.cnf /usr/local/etc/php-fpm.d/www.conf
+
 # adding user
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
-
-# setting apache
-COPY ./.configs/apache.conf /etc/apache2/sites-available/000-default.conf
-RUN a2enmod rewrite
 
 # setting up project from `src` folder
 RUN chmod -R 775 $container_project_path

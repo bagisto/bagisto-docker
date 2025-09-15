@@ -1,10 +1,9 @@
 # Bagisto Dockerization
 
-## Introduction
-
 The primary purpose of this repository is to provide a workspace along with all the necessary dependencies for Bagisto. In this repository, we include the following services:
 
-- PHP-Apache
+- PHP-FPM
+- Nginx
 - MySQL
 - Redis
 - PHPMyAdmin
@@ -16,7 +15,7 @@ The primary purpose of this repository is to provide a workspace along with all 
 
 Currently, all these services are included to fulfill the dependencies for the following Bagisto version:
 
-**Bagisto Version:** v2.2.4 to v2.3.6
+**Bagisto Version:** v2.3.6 and up.
 
 However, there may be some specific cases where adjustments are necessary. We recommend reviewing the `Dockerfile` or the `docker-compose.yml` file for any required modifications.
 
@@ -25,7 +24,7 @@ However, there may be some specific cases where adjustments are necessary. We re
 
 ## System Requirements
 
-- System/Server requirements of Bagisto are mentioned [here](https://github.com/bagisto/bagisto#2-requirements-). Using Docker, these requirements will be fulfilled by docker images of apache & mysql, and our application will run in a multi-tier architecture.
+- System/Server requirements of Bagisto are mentioned [here](https://devdocs.bagisto.com/getting-started/before-you-start.html#system-requirements). Using Docker, these requirements will be fulfilled by docker images of PHP-FPM & Nginx, and our application will run in a multi-tier architecture.
 
 - Install latest version of Docker and Docker Compose if it is not already installed. Docker supports Linux, MacOS and Windows Operating System. Click [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/) to find their installation guide.
 
@@ -36,10 +35,8 @@ However, there may be some specific cases where adjustments are necessary. We re
 - Adjust your services as needed. For example, most Linux users have a UID of 1000. If your UID is different, make sure to update it according to your host machine.
 
   ```yml
-  version: "3.1"
-
   services:
-    bagisto-php-apache:
+    php-fpm:
       build:
         args:
           container_project_path: /var/www/html/
@@ -47,11 +44,21 @@ However, there may be some specific cases where adjustments are necessary. We re
           user: $USER
         context: .
         dockerfile: ./Dockerfile
-      image: bagisto-php-apache
+      image: php-fpm
       ports:
-        - 80:80 # adjust your port here, if you want to change
+        - "5173:5173" # Vite dev server port
       volumes:
         - ./workspace/:/var/www/html/
+
+    nginx:
+      image: nginx:latest
+      ports:
+        - "80:80" # adjust your port here, if you want to change
+      volumes:
+        - ./workspace/:/var/www/html/
+        - ./.configs/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      depends_on:
+        - php-fpm
   ```
 
 - In this repository, the initial focus was on meeting all project requirements. Whether your project is new or pre-existing, you can easily copy and paste it into the designated workspace directory. If you’re unsure where to begin, a shell script has been provided to streamline the setup process for you. To install and set up everything, simply run:

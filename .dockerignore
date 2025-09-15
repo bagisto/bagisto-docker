@@ -1,5 +1,4 @@
-.configs/elasticsearch-data
-.configs/mysql-data
-.configs/redis-data
-
+.configs/data/elasticsearch-data
+.configs/data/mysql-data
+.configs/data/redis-data
 workspace
