@@ -24,12 +24,13 @@ $DOCKER_COMPOSE build && $DOCKER_COMPOSE up -d
 
 # container id by image name
 php_container_id=$(docker ps -aqf "name=php-fpm")
-db_container_id=$(docker ps -aqf "name=mysql")
+db_container_id=$(docker ps -aqf "name=mysql" | head -1)
+sleep 10
 
 # checking connection
-echo "Please wait... Waiting for MySQL connection..."
+echo "Please wait... Waiting for MySQL connection... ${db_container_id}"
 while ! docker exec ${db_container_id} mysql --user=root --password=root -e "SELECT 1" >/dev/null 2>&1; do
-    sleep 1
+    sleep 10
 done
 
 # creating empty database for bagisto
