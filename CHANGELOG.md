@@ -1,6 +1,10 @@
-## Unreleased
+## **v1.2.0 (30th of June 2026)** - *Release*
 
-- Soon.
+- Added two more web server runtimes — OpenLiteSpeed (lsphp) and Apache (mod_php) — alongside Nginx, each with its own `docker-compose.<runtime>.yml`. `setup.sh` now asks which runtime to set up.
+
+- Reorganized each runtime into a self-contained `runtimes/<name>/` folder (its own `Dockerfile` and `configs/`).
+
+- Added support for [Bagisto](https://github.com/bagisto/bagisto) v2.4.0 and above.
 
 ## **v1.1.2 (30th of June 2026)** - *Release*
 
