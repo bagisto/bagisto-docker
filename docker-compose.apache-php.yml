@@ -1,0 +1,115 @@
+services:
+  apache-php:
+    container_name: apache-php
+    build:
+      args:
+        uid: 1406
+        user: $USER
+        container_project_path: /var/www/html/
+      context: ./runtimes/apache-php
+      dockerfile: Dockerfile
+    image: apache-php
+    ports:
+      - 80:80
+      - 5173:5173
+    volumes:
+      - ~/.ssh:/home/$USER/.ssh
+      - ./runtimes/apache-php/configs/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+      - ./runtimes/apache-php/configs/supervisor/:/etc/supervisor/conf.d/
+      - ./workspace/:/var/www/html/
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./.runtimes-data/mysql-data:/var/lib/mysql/
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - 3030:80
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: root
+      UPLOAD_LIMIT: 2G
+      MEMORY_LIMIT: 2G
+      MAX_EXECUTION_TIME: 600
+
+  # postgres:
+  #   image: postgres:16-alpine
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     POSTGRES_USER: root
+  #     POSTGRES_PASSWORD: root
+  #   volumes:
+  #     - ./.runtimes-data/postgres-data:/var/lib/postgresql/data
+
+  # pgadmin:
+  #   image: dpage/pgadmin4:latest
+  #   ports:
+  #     - 5050:80
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@example.com
+  #     PGADMIN_DEFAULT_PASSWORD: admin123
+
+  # redis:
+  #   image: redis:6.2-alpine
+  #   ports:
+  #     - 6379:6379
+  #   command: redis-server --save 20 1 --loglevel warning
+  #   volumes:
+  #     - ./.runtimes-data/redis-data:/data
+
+  # rabbitmq:
+  #   image: rabbitmq:3-management-alpine
+  #   ports:
+  #     - "5672:5672"
+  #     - "15672:15672"
+  #   environment:
+  #     RABBITMQ_DEFAULT_USER: guest
+  #     RABBITMQ_DEFAULT_PASS: guest
+  #     RABBITMQ_DEFAULT_VHOST: /
+
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:8.17.0
+  #   ports:
+  #     - 9200:9200
+  #     - 9300:9300
+  #   environment:
+  #     - xpack.security.enabled=false
+  #     - discovery.type=single-node
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #     - cluster.routing.allocation.disk.threshold_enabled=true
+  #     - cluster.routing.allocation.disk.watermark.low=95%
+  #     - cluster.routing.allocation.disk.watermark.high=97%
+  #     - cluster.routing.allocation.disk.watermark.flood_stage=99%
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #     nofile:
+  #       soft: 65536
+  #       hard: 65536
+
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:8.17.0
+  #   ports:
+  #     - 5601:5601
+  #   environment:
+  #     - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+  #   depends_on:
+  #     - elasticsearch
+
+  mailpit:
+    image: "axllent/mailpit:latest"
+    ports:
+      - 8025:8025
+      - 1025:1025

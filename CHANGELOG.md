@@ -1,4 +1,8 @@
-## **v1.1.2 (30th of Jun 2026)** - *Release*
+## Unreleased
+
+- Soon.
+
+## **v1.1.2 (30th of June 2026)** - *Release*
 
 - Replaced Apache services with Nginx.
 
