@@ -15,7 +15,7 @@ The primary purpose of this repository is to provide a workspace along with all 
 
 Currently, all these services are included to fulfill the dependencies for the following Bagisto version:
 
-**Bagisto Version:** v2.3.6 and up.
+**Bagisto Version:** v2.3.6 and v2.3.19.
 
 However, there may be some specific cases where adjustments are necessary. We recommend reviewing the `Dockerfile` or the `docker-compose.yml` file for any required modifications.
 
