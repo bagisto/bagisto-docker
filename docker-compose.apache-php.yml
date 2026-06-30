@@ -3,7 +3,7 @@ services:
     container_name: apache-php
     build:
       args:
-        uid: 1406
+        uid: 1000
         user: $USER
         container_project_path: /var/www/html/
       context: ./runtimes/apache-php
